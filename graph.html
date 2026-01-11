@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Matplotlib プロット集</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Matplotlib プロット集</h1>
+</header>
+<p>以下に、Matplotlib だけ（＋標準的な拡張モジュール
+mplot3d）で直接描画できる代表的なプロット（グラフ）タイプをなるべく網羅的にまとめました。用途や見た目の好みに合わせて使い分けてみてください。</p>
+<hr />
+<h2 id="基本的な-2d-プロット">1. 基本的な 2D プロット</h2>
+<table>
+<colgroup>
+<col style="width: 16%" />
+<col style="width: 42%" />
+<col style="width: 42%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">種類</th>
+<th style="text-align: left;">関数・メソッド</th>
+<th style="text-align: left;">説明</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">折れ線グラフ</td>
+<td style="text-align: left;"><code>plt.plot()</code></td>
+<td
+style="text-align: left;">連続データの推移や時系列データの可視化に最適</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">散布図</td>
+<td style="text-align: left;"><code>plt.scatter()</code></td>
+<td style="text-align: left;">2 変量の分布・相関を点で表現</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">棒グラフ</td>
+<td style="text-align: left;"><code>plt.bar()</code> /
+<code>plt.barh()</code></td>
+<td style="text-align: left;">カテゴリ別の比較</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ヒストグラム</td>
+<td style="text-align: left;"><code>plt.hist()</code></td>
+<td style="text-align: left;">分布（度数分布）</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">箱ひげ図</td>
+<td style="text-align: left;"><code>plt.boxplot()</code></td>
+<td
+style="text-align: left;">データの分布概要（中央値、四分位範囲、外れ値）</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">バイオリンプロット</td>
+<td style="text-align: left;"><code>plt.violinplot()</code></td>
+<td
+style="text-align: left;">箱ひげ図＋カーネル密度推定による分布形状</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">円グラフ</td>
+<td style="text-align: left;"><code>plt.pie()</code></td>
+<td style="text-align: left;">構成比（割合）の可視化</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">面グラフ</td>
+<td style="text-align: left;"><code>plt.stackplot()</code> /
+<code>plt.fill_between()</code></td>
+<td style="text-align: left;">複数系列の累積推移、領域の塗りつぶし</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ステッププロット</td>
+<td style="text-align: left;"><code>plt.step()</code></td>
+<td style="text-align: left;">階段状プロット（離散的変化を明示）</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ステムプロット</td>
+<td style="text-align: left;"><code>plt.stem()</code></td>
+<td
+style="text-align: left;">データ点＋垂直線（離散データの可視化）</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">エラーバー</td>
+<td style="text-align: left;"><code>plt.errorbar()</code></td>
+<td style="text-align: left;">データ点の誤差範囲（上下）を線で描画</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ログプロット</td>
+<td style="text-align: left;"><code>plt.semilogx()</code> /
+<code>plt.semilogy()</code> / <code>plt.loglog()</code></td>
+<td style="text-align: left;">軸を対数スケールで可視化</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="カラーマップ2d-密度系">2. カラーマップ／2D 密度系</h2>
+<table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 35%" />
+<col style="width: 44%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">種類</th>
+<th style="text-align: left;">関数・メソッド</th>
+<th style="text-align: left;">説明</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">画像表示</td>
+<td style="text-align: left;"><code>plt.imshow()</code></td>
+<td style="text-align: left;">2D 配列をグリッド状に色分け</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">等高線図</td>
+<td style="text-align: left;"><code>plt.contour()</code> /
+<code>plt.contourf()</code></td>
+<td style="text-align: left;">等高線／塗りつぶし等高線</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">メッシュプロット</td>
+<td style="text-align: left;"><code>plt.pcolor()</code> /
+<code>plt.pcolormesh()</code></td>
+<td style="text-align: left;">グリッド上の塗りつぶし</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ヒートマップ（Seaborn）※</td>
+<td style="text-align: left;"><code>sns.heatmap()</code></td>
+<td style="text-align: left;">Seaborn
+経由でよりリッチなヒートマップ※</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">六角形ビンプロット</td>
+<td style="text-align: left;"><code>plt.hexbin()</code></td>
+<td style="text-align: left;">散布図の密度を六角形ビンで集計表示</td>
+</tr>
+</tbody>
+</table>
+<p>※Seaborn は Matplotlib
+ベースのライブラリですが、公式にバンドルはされていません。より高度な統計プロットに便利です。</p>
+<hr />
+<h2 id="ベクトル流れ場プロット">3. ベクトル／流れ場プロット</h2>
+<table>
+<colgroup>
+<col style="width: 21%" />
+<col style="width: 29%" />
+<col style="width: 49%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">種類</th>
+<th style="text-align: left;">関数・メソッド</th>
+<th style="text-align: left;">説明</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">クワイバー</td>
+<td style="text-align: left;"><code>plt.quiver()</code></td>
+<td style="text-align: left;">ベクトル場（矢印）の可視化</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ストリームプロット</td>
+<td style="text-align: left;"><code>plt.streamplot()</code></td>
+<td style="text-align: left;">流線（速度場などの流れのライン）</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="イベントカテゴリ系">4. イベント・カテゴリ系</h2>
+<table>
+<colgroup>
+<col style="width: 15%" />
+<col style="width: 29%" />
+<col style="width: 55%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">種類</th>
+<th style="text-align: left;">関数・メソッド</th>
+<th style="text-align: left;">説明</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">イベントプロット</td>
+<td style="text-align: left;"><code>plt.eventplot()</code></td>
+<td
+style="text-align: left;">縦線や点で時刻イベント（スパイク列）の可視化</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">テーブル</td>
+<td style="text-align: left;"><code>plt.table()</code></td>
+<td
+style="text-align: left;">数値データをテーブル形式で埋め込み表示</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="極座標プロットpolar">5. 極座標プロット（Polar）</h2>
+<table>
+<colgroup>
+<col style="width: 23%" />
+<col style="width: 41%" />
+<col style="width: 35%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">種類</th>
+<th style="text-align: left;">関数・メソッド</th>
+<th style="text-align: left;">説明</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">極座標線プロット</td>
+<td
+style="text-align: left;"><code>ax = plt.subplot(projection='polar'); ax.plot()</code></td>
+<td style="text-align: left;">極座標上の折れ線グラフ</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">極座標散布図</td>
+<td style="text-align: left;"><code>ax.scatter()</code></td>
+<td style="text-align: left;">極座標上の散布図</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">極座標棒グラフ</td>
+<td style="text-align: left;"><code>ax.bar()</code></td>
+<td style="text-align: left;">極座標上の棒グラフ</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">極座標ヒストグラム</td>
+<td style="text-align: left;"><code>ax.hist()</code></td>
+<td style="text-align: left;">極座標上のヒストグラム</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="d-プロットmpl_toolkits.mplot3d">6. 3D
+プロット（mpl_toolkits.mplot3d）</h2>
+<table>
+<colgroup>
+<col style="width: 17%" />
+<col style="width: 38%" />
+<col style="width: 44%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">種類</th>
+<th style="text-align: left;">メソッド</th>
+<th style="text-align: left;">説明</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">3D 折れ線グラフ</td>
+<td style="text-align: left;"><code>ax.plot()</code></td>
+<td style="text-align: left;">3 次元空間での線グラフ</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">3D 散布図</td>
+<td style="text-align: left;"><code>ax.scatter()</code></td>
+<td style="text-align: left;">3 次元散布図</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">3D ワイヤーフレーム</td>
+<td style="text-align: left;"><code>ax.plot_wireframe()</code></td>
+<td style="text-align: left;">3D ワイヤーフレームサーフェス</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">3D サーフェス</td>
+<td style="text-align: left;"><code>ax.plot_surface()</code></td>
+<td style="text-align: left;">カラーマップ付きサーフェス</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">3D 等高線</td>
+<td style="text-align: left;"><code>ax.contour()</code> /
+<code>ax.contourf()</code></td>
+<td style="text-align: left;">3D 等高線プロット</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">3D 棒グラフ</td>
+<td style="text-align: left;"><code>ax.bar3d()</code></td>
+<td style="text-align: left;">3D 空間での棒グラフ</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">3D ベクトル</td>
+<td style="text-align: left;"><code>ax.quiver()</code></td>
+<td style="text-align: left;">3D ベクトル場（矢印）</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="その他の便利プロット">7. その他の便利プロット</h2>
+<table>
+<colgroup>
+<col style="width: 21%" />
+<col style="width: 29%" />
+<col style="width: 48%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">種類</th>
+<th style="text-align: left;">関数・メソッド</th>
+<th style="text-align: left;">説明</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">スタックエリアチャート</td>
+<td style="text-align: left;"><code>plt.stackplot()</code></td>
+<td style="text-align: left;">複数系列の面グラフ</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ヒストグラム（累積）</td>
+<td
+style="text-align: left;"><code>plt.hist(cumulative=True)</code></td>
+<td style="text-align: left;">累積度数／累積分布</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">累積分布関数（CDF）</td>
+<td
+style="text-align: left;"><code>np.sort()</code>＋<code>plt.plot()</code></td>
+<td style="text-align: left;">CDF を自前でプロット</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">折れ線の塗り潰し</td>
+<td style="text-align: left;"><code>plt.fill_between()</code></td>
+<td style="text-align: left;">２線間の領域を色塗り潰し</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ステップヒストグラム</td>
+<td
+style="text-align: left;"><code>plt.hist(histtype='step')</code></td>
+<td style="text-align: left;">線のみのヒストグラム</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">箱ひげ図の水平表示</td>
+<td style="text-align: left;"><code>plt.boxplot(vert=False)</code></td>
+<td style="text-align: left;">横倒しの箱ひげ図</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">エラーバンド</td>
+<td
+style="text-align: left;"><code>ax.fill_between(x, y-yerr, y+yerr, alpha=…)</code></td>
+<td style="text-align: left;">誤差帯（バンド）を表現</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">プロット上への注釈</td>
+<td style="text-align: left;"><code>plt.annotate()</code></td>
+<td style="text-align: left;">任意の位置にテキストや矢印を付加</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">サブプロットの並列描画</td>
+<td style="text-align: left;"><code>plt.subplot()</code> /
+<code>plt.subplots()</code></td>
+<td style="text-align: left;">複数プロットを同じ図に配置</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">カラーバー</td>
+<td style="text-align: left;"><code>plt.colorbar()</code></td>
+<td
+style="text-align: left;">カラーマップ付きプロットに対する凡例のような色バー</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="統計分析向けプロット">8. 統計分析向けプロット</h2>
+<table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 34%" />
+<col style="width: 44%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">種類</th>
+<th style="text-align: left;">関数・メソッド</th>
+<th style="text-align: left;">説明</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">回帰直線付き散布図</td>
+<td style="text-align: left;"><code>np.polyfit()</code> +
+<code>plt.plot()</code></td>
+<td style="text-align: left;">散布図に回帰直線を重ねて傾向を確認</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">残差プロット</td>
+<td style="text-align: left;"><code>plt.subplots()</code> +
+<code>ax.scatter()</code></td>
+<td style="text-align: left;">回帰モデルの残差の偏りを確認</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">相関行列ヒートマップ</td>
+<td style="text-align: left;"><code>np.corrcoef()</code> +
+<code>plt.imshow()</code></td>
+<td style="text-align: left;">変数間の相関を色で可視化</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="関数インデックス">関数インデックス</h2>
+<h3 id="matplotlibpyplot">Matplotlib（pyplot）</h3>
+<ul>
+<li><code>plt.plot()</code> / <code>plt.scatter()</code> /
+<code>plt.bar()</code> / <code>plt.barh()</code> /
+<code>plt.hist()</code> / <code>plt.boxplot()</code> /
+<code>plt.violinplot()</code> / <code>plt.pie()</code></li>
+<li><code>plt.stackplot()</code> / <code>plt.fill_between()</code> /
+<code>plt.step()</code> / <code>plt.stem()</code> /
+<code>plt.errorbar()</code> / <code>plt.semilogx()</code> /
+<code>plt.semilogy()</code> / <code>plt.loglog()</code></li>
+<li><code>plt.imshow()</code> / <code>plt.contour()</code> /
+<code>plt.contourf()</code> / <code>plt.pcolor()</code> /
+<code>plt.pcolormesh()</code> / <code>plt.hexbin()</code></li>
+<li><code>plt.quiver()</code> / <code>plt.streamplot()</code> /
+<code>plt.eventplot()</code> / <code>plt.table()</code> /
+<code>plt.subplot()</code> / <code>plt.subplots()</code></li>
+<li><code>plt.colorbar()</code> / <code>plt.annotate()</code> /
+<code>plt.legend()</code> / <code>plt.savefig()</code> /
+<code>plt.show()</code> / <code>plt.tight_layout()</code></li>
+</ul>
+<h3 id="matplotlibaxes-3d">Matplotlib（Axes / 3D）</h3>
+<ul>
+<li><code>ax.plot()</code> / <code>ax.scatter()</code> /
+<code>ax.bar()</code> / <code>ax.hist()</code> /
+<code>ax.plot_surface()</code> / <code>ax.plot_wireframe()</code> /
+<code>ax.contour()</code> / <code>ax.contourf()</code> /
+<code>ax.bar3d()</code> / <code>ax.quiver()</code></li>
+</ul>
+<h3 id="numpy">NumPy</h3>
+<ul>
+<li><code>np.linspace()</code> / <code>np.random.seed()</code> /
+<code>np.random.rand()</code> / <code>np.random.randn()</code> /
+<code>np.random.normal()</code></li>
+<li><code>np.meshgrid()</code> / <code>np.mgrid</code> /
+<code>np.exp()</code> / <code>np.sin()</code> / <code>np.sqrt()</code> /
+<code>np.sort()</code> / <code>np.corrcoef()</code> /
+<code>np.polyfit()</code></li>
+</ul>
+<hr />
+<h2 id="サンプルスクリプト">サンプルスクリプト</h2>
+<p>以下に、代表的なプロットのサンプルコードを示します。各コードは独立して実行できます。</p>
+<h3 id="折れ線グラフ">折れ線グラフ</h3>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">10</span>, <span class="dv">100</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> np.sin(x)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co"># サイン波を折れ線で描画</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>plt.plot(x, y)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">&#39;x&#39;</span>)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">&#39;sin(x)&#39;</span>)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">&#39;Line Plot&#39;</span>)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div>
+<figure>
+<img src="images/line_plot.png" alt="Line Plot" />
+<figcaption aria-hidden="true">Line Plot</figcaption>
+</figure>
+<h3 id="散布図">散布図</h3>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">0</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.random.rand(<span class="dv">50</span>)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> np.random.rand(<span class="dv">50</span>)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co"># x の値で色分けした散布図</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>plt.scatter(x, y, c<span class="op">=</span>x, cmap<span class="op">=</span><span class="st">&#39;viridis&#39;</span>, marker<span class="op">=</span><span class="st">&#39;o&#39;</span>)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">&#39;X&#39;</span>)</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">&#39;Y&#39;</span>)</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">&#39;Scatter Plot&#39;</span>)</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>plt.colorbar()</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div>
+<figure>
+<img src="images/scatter_plot.png" alt="Scatter Plot" />
+<figcaption aria-hidden="true">Scatter Plot</figcaption>
+</figure>
+<h3 id="棒グラフ">棒グラフ</h3>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>categories <span class="op">=</span> [<span class="st">&#39;A&#39;</span>, <span class="st">&#39;B&#39;</span>, <span class="st">&#39;C&#39;</span>, <span class="st">&#39;D&#39;</span>]</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>values <span class="op">=</span> [<span class="dv">10</span>, <span class="dv">24</span>, <span class="dv">36</span>, <span class="dv">18</span>]</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co"># カテゴリ別の棒グラフ</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>plt.bar(categories, values, color<span class="op">=</span><span class="st">&#39;skyblue&#39;</span>)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">&#39;Bar Chart&#39;</span>)</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div>
+<figure>
+<img src="images/bar_chart.png" alt="Bar Chart" />
+<figcaption aria-hidden="true">Bar Chart</figcaption>
+</figure>
+<h3 id="ヒストグラム">ヒストグラム</h3>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> np.random.randn(<span class="dv">1000</span>)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 分布をヒストグラムで可視化</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>plt.hist(data, bins<span class="op">=</span><span class="dv">30</span>, color<span class="op">=</span><span class="st">&#39;gray&#39;</span>, edgecolor<span class="op">=</span><span class="st">&#39;black&#39;</span>)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">&#39;Histogram&#39;</span>)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div>
+<figure>
+<img src="images/histogram.png" alt="Histogram" />
+<figcaption aria-hidden="true">Histogram</figcaption>
+</figure>
+<h3 id="箱ひげ図">箱ひげ図</h3>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> [np.random.randn(<span class="dv">100</span>) <span class="op">+</span> i <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">4</span>)]</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 複数系列の分布を箱ひげ図で比較</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>plt.boxplot(data)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">&#39;Box Plot&#39;</span>)</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div>
+<figure>
+<img src="images/box_plot.png" alt="Box Plot" />
+<figcaption aria-hidden="true">Box Plot</figcaption>
+</figure>
+<h3 id="円グラフ">円グラフ</h3>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>labels <span class="op">=</span> [<span class="st">&#39;Apple&#39;</span>, <span class="st">&#39;Banana&#39;</span>, <span class="st">&#39;Cherry&#39;</span>, <span class="st">&#39;Date&#39;</span>]</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>sizes <span class="op">=</span> [<span class="dv">30</span>, <span class="dv">15</span>, <span class="dv">45</span>, <span class="dv">10</span>]</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 割合の円グラフ</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>plt.pie(sizes, labels<span class="op">=</span>labels, autopct<span class="op">=</span><span class="st">&#39;</span><span class="sc">%1.1f%%</span><span class="st">&#39;</span>)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">&#39;Pie Chart&#39;</span>)</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div>
+<figure>
+<img src="images/pie_chart.png" alt="Pie Chart" />
+<figcaption aria-hidden="true">Pie Chart</figcaption>
+</figure>
+<h3 id="imshow画像表示">imshow（画像表示）</h3>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>img <span class="op">=</span> np.random.rand(<span class="dv">10</span>, <span class="dv">10</span>)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 2D 配列を画像として表示</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>plt.imshow(img, cmap<span class="op">=</span><span class="st">&#39;viridis&#39;</span>)</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>plt.colorbar()</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">&#39;Image Display&#39;</span>)</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div>
+<figure>
+<img src="images/image_display.png" alt="Image Display" />
+<figcaption aria-hidden="true">Image Display</figcaption>
+</figure>
+<h3 id="等高線図">等高線図</h3>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">100</span>)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">100</span>)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>X, Y <span class="op">=</span> np.meshgrid(x, y)</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>Z <span class="op">=</span> np.exp(<span class="op">-</span>(X<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> Y<span class="op">**</span><span class="dv">2</span>))</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 等高線の塗りつぶし</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>plt.contourf(X, Y, Z, levels<span class="op">=</span><span class="dv">20</span>, cmap<span class="op">=</span><span class="st">&#39;coolwarm&#39;</span>)</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>plt.colorbar()</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">&#39;Filled Contour Plot&#39;</span>)</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div>
+<figure>
+<img src="images/filled_contour_plot.png" alt="Filled Contour Plot" />
+<figcaption aria-hidden="true">Filled Contour Plot</figcaption>
+</figure>
+<h3 id="クワイバー">クワイバー</h3>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>Y, X <span class="op">=</span> np.mgrid[<span class="op">-</span><span class="dv">3</span>:<span class="dv">3</span>:<span class="ot">100j</span>, <span class="op">-</span><span class="dv">3</span>:<span class="dv">3</span>:<span class="ot">100j</span>]</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>U <span class="op">=</span> <span class="op">-</span><span class="dv">1</span> <span class="op">-</span> X<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> Y</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>V <span class="op">=</span> <span class="dv">1</span> <span class="op">+</span> X <span class="op">-</span> Y<span class="op">**</span><span class="dv">2</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="co"># ベクトル場の可視化</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>plt.quiver(X, Y, U, V)</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">&#39;Quiver Plot&#39;</span>)</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div>
+<figure>
+<img src="images/quiver_plot.png" alt="Quiver Plot" />
+<figcaption aria-hidden="true">Quiver Plot</figcaption>
+</figure>
+<h3 id="極座標プロット">極座標プロット</h3>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>theta <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">2</span><span class="op">*</span>np.pi, <span class="dv">100</span>)</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>r <span class="op">=</span> <span class="dv">1</span> <span class="op">+</span> np.sin(<span class="dv">4</span><span class="op">*</span>theta)</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="co"># 極座標で描画</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> plt.subplot(projection<span class="op">=</span><span class="st">&#39;polar&#39;</span>)</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>ax.plot(theta, r)</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">&#39;Polar Plot&#39;</span>)</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div>
+<figure>
+<img src="images/polar_plot.png" alt="Polar Plot" />
+<figcaption aria-hidden="true">Polar Plot</figcaption>
+</figure>
+<h3 id="d-サーフェスプロット">3D サーフェスプロット</h3>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> mpl_toolkits.mplot3d <span class="im">import</span> Axes3D</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">5</span>, <span class="dv">5</span>, <span class="dv">50</span>)</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>Y <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">5</span>, <span class="dv">5</span>, <span class="dv">50</span>)</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>X, Y <span class="op">=</span> np.meshgrid(X, Y)</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>Z <span class="op">=</span> np.sin(np.sqrt(X<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> Y<span class="op">**</span><span class="dv">2</span>))</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure()</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> fig.add_subplot(projection<span class="op">=</span><span class="st">&#39;3d&#39;</span>)</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a><span class="co"># 3D サーフェスを描画</span></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>ax.plot_surface(X, Y, Z, cmap<span class="op">=</span><span class="st">&#39;viridis&#39;</span>)</span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">&#39;3D Surface Plot&#39;</span>)</span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div>
+<figure>
+<img src="images/3d_surface_plot.png" alt="3D Surface Plot" />
+<figcaption aria-hidden="true">3D Surface Plot</figcaption>
+</figure>
+<h3 id="回帰直線付き散布図">回帰直線付き散布図</h3>
+<div class="sourceCode" id="cb12"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">1</span>)</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">10</span>, <span class="dv">50</span>)</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>noise <span class="op">=</span> np.random.normal(scale<span class="op">=</span><span class="fl">1.2</span>, size<span class="op">=</span>x.size)</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> <span class="fl">1.8</span> <span class="op">*</span> x <span class="op">+</span> <span class="fl">2.5</span> <span class="op">+</span> noise</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>slope, intercept <span class="op">=</span> np.polyfit(x, y, <span class="dv">1</span>)</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>y_fit <span class="op">=</span> slope <span class="op">*</span> x <span class="op">+</span> intercept</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a><span class="co"># 回帰直線を重ねる</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>plt.scatter(x, y, color<span class="op">=</span><span class="st">&#39;tab:blue&#39;</span>, alpha<span class="op">=</span><span class="fl">0.75</span>, label<span class="op">=</span><span class="st">&#39;Data&#39;</span>)</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>plt.plot(x, y_fit, color<span class="op">=</span><span class="st">&#39;tab:orange&#39;</span>, linewidth<span class="op">=</span><span class="dv">2</span>, label<span class="op">=</span><span class="st">&#39;Fit&#39;</span>)</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">&#39;x&#39;</span>)</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">&#39;y&#39;</span>)</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">&#39;Regression Plot&#39;</span>)</span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div>
+<figure>
+<img src="images/regression_plot.png" alt="Regression Plot" />
+<figcaption aria-hidden="true">Regression Plot</figcaption>
+</figure>
+<h3 id="残差プロット">残差プロット</h3>
+<div class="sourceCode" id="cb13"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">2</span>)</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">12</span>, <span class="dv">60</span>)</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>noise <span class="op">=</span> np.random.normal(scale<span class="op">=</span><span class="fl">1.5</span>, size<span class="op">=</span>x.size)</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> <span class="fl">2.2</span> <span class="op">*</span> x <span class="op">-</span> <span class="fl">1.0</span> <span class="op">+</span> noise</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>slope, intercept <span class="op">=</span> np.polyfit(x, y, <span class="dv">1</span>)</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>y_fit <span class="op">=</span> slope <span class="op">*</span> x <span class="op">+</span> intercept</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>residuals <span class="op">=</span> y <span class="op">-</span> y_fit</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">2</span>, <span class="dv">1</span>, figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">7</span>), sharex<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a><span class="co"># 上段: 元データと回帰直線</span></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].scatter(x, y, color<span class="op">=</span><span class="st">&#39;tab:blue&#39;</span>, alpha<span class="op">=</span><span class="fl">0.75</span>, label<span class="op">=</span><span class="st">&#39;Data&#39;</span>)</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].plot(x, y_fit, color<span class="op">=</span><span class="st">&#39;tab:orange&#39;</span>, linewidth<span class="op">=</span><span class="dv">2</span>, label<span class="op">=</span><span class="st">&#39;Fit&#39;</span>)</span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_ylabel(<span class="st">&#39;y&#39;</span>)</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_title(<span class="st">&#39;Residuals Plot&#39;</span>)</span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].legend()</span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a><span class="co"># 下段: 残差</span></span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].axhline(<span class="dv">0</span>, color<span class="op">=</span><span class="st">&#39;gray&#39;</span>, linewidth<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].scatter(x, residuals, color<span class="op">=</span><span class="st">&#39;tab:green&#39;</span>, alpha<span class="op">=</span><span class="fl">0.75</span>)</span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_xlabel(<span class="st">&#39;x&#39;</span>)</span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_ylabel(<span class="st">&#39;Residuals&#39;</span>)</span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div>
+<figure>
+<img src="images/residuals_plot.png" alt="Residuals Plot" />
+<figcaption aria-hidden="true">Residuals Plot</figcaption>
+</figure>
+<h3 id="相関行列ヒートマップ">相関行列ヒートマップ</h3>
+<div class="sourceCode" id="cb14"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">3</span>)</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> np.random.randn(<span class="dv">200</span>, <span class="dv">4</span>)</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>data[:, <span class="dv">1</span>] <span class="op">=</span> <span class="fl">0.6</span> <span class="op">*</span> data[:, <span class="dv">0</span>] <span class="op">+</span> <span class="fl">0.4</span> <span class="op">*</span> data[:, <span class="dv">1</span>]</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>data[:, <span class="dv">2</span>] <span class="op">=</span> <span class="op">-</span><span class="fl">0.5</span> <span class="op">*</span> data[:, <span class="dv">0</span>] <span class="op">+</span> <span class="fl">0.3</span> <span class="op">*</span> data[:, <span class="dv">2</span>]</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>corr <span class="op">=</span> np.corrcoef(data, rowvar<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a><span class="co"># 相関行列をヒートマップ表示</span></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>plt.imshow(corr, cmap<span class="op">=</span><span class="st">&#39;coolwarm&#39;</span>, vmin<span class="op">=-</span><span class="dv">1</span>, vmax<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>plt.colorbar(label<span class="op">=</span><span class="st">&#39;Correlation&#39;</span>)</span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>plt.xticks(<span class="bu">range</span>(<span class="dv">4</span>), [<span class="st">&#39;Var1&#39;</span>, <span class="st">&#39;Var2&#39;</span>, <span class="st">&#39;Var3&#39;</span>, <span class="st">&#39;Var4&#39;</span>])</span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>plt.yticks(<span class="bu">range</span>(<span class="dv">4</span>), [<span class="st">&#39;Var1&#39;</span>, <span class="st">&#39;Var2&#39;</span>, <span class="st">&#39;Var3&#39;</span>, <span class="st">&#39;Var4&#39;</span>])</span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">&#39;Correlation Heatmap&#39;</span>)</span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div>
+<figure>
+<img src="images/correlation_heatmap.png" alt="Correlation Heatmap" />
+<figcaption aria-hidden="true">Correlation Heatmap</figcaption>
+</figure>
+<h3 id="まとめ">まとめ</h3>
+<ul>
+<li><strong>基本的な線・点・棒・面・円グラフ</strong> から<br />
+</li>
+<li><strong>統計分布系（ヒストグラム・箱ひげ・バイオリン）</strong>、<br />
+</li>
+<li><strong>密度マップ系（imshow・contour・hexbin）</strong>、<br />
+</li>
+<li><strong>ベクトル／流体場（quiver・streamplot）</strong>、<br />
+</li>
+<li><strong>極座標プロット</strong>、<br />
+</li>
+<li><strong>3Dプロット</strong> まで<br />
+</li>
+<li><strong>統計分析向けの可視化（回帰直線・残差・相関行列）</strong>
+まで</li>
+</ul>
+<p>Matplotlib だけでこれだけ多彩な可視化が可能です。さらに Seaborn や
+pandas
+のラッパーを併用すると、より少ないコードで統計的可視化の表現力を高められます。まずは上記リストを参照しつつ、興味のあるプロットを試してみてください！</p>
+</body>
+</html>
